@@ -1,0 +1,22 @@
+// const withCSS = require('@zeit/next-css')
+// const withSass = require('@zeit/next-sass')
+
+// const isProd = process.env.NODE_ENV === 'production'
+
+// module.exports = withSass(withCSS({
+//   lessLoaderOptions: {
+//     javascriptEnabled: true
+//   }
+// }))
+
+module.exports = {
+  generateBuildId: async () => {
+    // You can, for example, get the latest git commit hash here
+    return 'myoutput'
+  },
+  env: {
+    apiKey: 'AIza__ API KEY HERE ___sM'
+  }
+}
+
+///Users/wwarodom/node/hello/.next/server/static/myoutput/pages
