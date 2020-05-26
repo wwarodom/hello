@@ -8,9 +8,6 @@ import { loginFacebook } from '../redux/actions'
 export default () => {
   const dispatch = useDispatch()
 
-  console.log('sdf' + process.env.API_KEY)
-  console.log("sfdf====")
-
   const login = () => { 
     dispatch(loginFacebook()) 
   }
@@ -19,21 +16,19 @@ export default () => {
     firebase
       .auth()
       .signOut()
-      .then(function () {
-        // Sign-out successful.
+      .then(function () { 
         console.log('Signout already')
       })
-      .catch(function (error) {
-        // An error happened.
+      .catch(function (error) { 
         console.log('error occurred')
       })
   }
   const state = useSelector( s => s)
   const user =  useSelector((state) => state.facebook.user)
   const error = useSelector((state) => state.facebook.error)
-  console.log('state: ', state )
-  console.log('user: ', user)
-  console.log('error: ', error)
+  // console.log('state: ', state )
+  // console.log('user: ', user)
+  // console.log('error: ', error)
 
 
   const NormalLoginForm = () => {
@@ -126,9 +121,6 @@ export default () => {
     </Layout>
   )
 }
-
-
-
 
 
   // firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {

@@ -2,16 +2,27 @@
 import Link from 'next/link' 
 import { useState } from 'react'
 import { Layout, Menu } from 'antd' 
+import firebase from '../config/firebase'
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutFacebook } from '../redux/actions'
 
 const { Header, Content, Footer } = Layout
 const { SubMenu } = Menu;
+
+
 export default function Home (props) {
   const [menuId, setMenuId] = useState(props.menuId) 
-  console.log('user props: ', props.user )
+  // console.log('user props: ', props.user )
+  // console.log('firebase in Layout: ', firebase)
+
+  const dispatch = useDispatch()
 
   const LogoutMenu = (props) => (
     <SubMenu title={props.user} key='4' style={{ float: 'right' }} {...props} >
-        <Menu.Item key="setting:1">Logout</Menu.Item> 
+        <Menu.Item key="setting:1"
+          onClick={ ()=> dispatch(logoutFacebook())}
+          // onClick={()=> console.log('click logout')}
+        >Logout</Menu.Item> 
     </SubMenu>
   )
 

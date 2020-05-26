@@ -7,6 +7,10 @@ const facebookReducer = (state = 0, {type, payload}) => {
       return { user: payload.user }
     case types.LOGIN_FAILED:
       return { error: payload.error} 
+    case types.LOGOUT_SUCCESS:
+      return { user: payload.user }
+    case types.LOGOUT_FAILED:
+      return { error: payload.error} 
     default:
         return state
   }

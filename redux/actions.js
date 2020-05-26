@@ -27,8 +27,27 @@ export const loginFacebook = () => (dispatch) => {
         type: types.LOGIN_FAILED,
         payload: { error: error.message },
       }) 
+    })  
+}
+
+export const logoutFacebook = () => (dispatch) => {
+  firebase
+    .auth()
+    .signOut()
+    .then(function () { 
+      console.log('Signout already')
+      dispatch({
+        type: types.LOGOUT_SUCCESS,
+        payload: { user: null },
+      }) 
     })
-    
+    .catch(function (error) { 
+      console.log('error occurred')
+      dispatch({
+        type: types.LOGOUT_FAILED,
+        payload: { error: error.message },
+      }) 
+    })
 }
 
 
