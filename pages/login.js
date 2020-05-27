@@ -25,9 +25,11 @@ export default () => {
   }
   const state = useSelector( s => s)
   const user =  useSelector((state) => state.facebook.user)
+  const token =  useSelector((state) => state.facebook.token)
   const error = useSelector((state) => state.facebook.error)
   // console.log('state: ', state )
-  // console.log('user: ', user)
+  console.log('user: ', user )
+  console.log('token login : ', user )
   // console.log('error: ', error)
 
 

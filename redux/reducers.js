@@ -4,11 +4,11 @@ import * as types from './types'
 const facebookReducer = (state = 0, {type, payload}) => {
   switch (type) {
     case types.LOGIN_SUCCESS:
-      return { user: payload.user }
+      return { user: payload.user, token: payload.token }
     case types.LOGIN_FAILED:
       return { error: payload.error} 
     case types.LOGOUT_SUCCESS:
-      return { user: payload.user }
+      return { user: payload.user, token: null }
     case types.LOGOUT_FAILED:
       return { error: payload.error} 
     default:

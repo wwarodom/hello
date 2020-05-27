@@ -1,21 +1,19 @@
 import * as types from './types'
 import firebase from '../config/firebase'
 
-export const loginFacebook = () => (dispatch) => {
+export const loginFacebook = () => async (dispatch) => {
   let provider = new firebase.auth.FacebookAuthProvider()
-  firebase
-    .auth()
-    .signInWithPopup(provider)
+  firebase.auth().signInWithPopup(provider)
     .then(function (result) {
       let token = result.credential.accessToken
       var user = result.user
-      console.log('token:  ', token)
-      console.log('user: ', user)
+      console.log('token:  ', token) 
       console.log('user displayName: ', user.displayName)
-
+      if (typeof window !== 'undefined') 
+        localStorage.setItem('token',token)
       dispatch({
         type: types.LOGIN_SUCCESS,
-        payload: { user: user.displayName },
+        payload: { user: user.displayName , token },
       }) 
     })
     .catch(function (error) {
@@ -36,6 +34,7 @@ export const logoutFacebook = () => (dispatch) => {
     .signOut()
     .then(function () { 
       console.log('Signout already')
+      removeCookie('token');
       dispatch({
         type: types.LOGOUT_SUCCESS,
         payload: { user: null },

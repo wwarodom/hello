@@ -10,3 +10,18 @@ export default () => {
     </Layout>
   )
 }
+ 
+
+export async function getServerSideProps() {
+  let token=null
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token')
+    console.log('get token about', token)
+  }
+
+  return {
+    props: {
+      token,
+    },
+  }
+}

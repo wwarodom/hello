@@ -16,6 +16,8 @@ export default function Home (props) {
   // console.log('firebase in Layout: ', firebase)
 
   const dispatch = useDispatch()
+  if (typeof window !== 'undefined') 
+    console.log('get token from localStorage:  ', localStorage.getItem('token'))
 
   const LogoutMenu = (props) => (
     <SubMenu title={props.user} key='4' style={{ float: 'right' }} {...props} >
