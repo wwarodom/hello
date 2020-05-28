@@ -11,18 +11,9 @@ const { SubMenu } = Menu;
 
 
 export default function Home (props) {
-  const [menuId, setMenuId] = useState(props.menuId) 
-  
-  // console.log('user props: ', props.user )
-  // console.log('firebase in Layout: ', firebase)
-
+  const [menuId, setMenuId] = useState(props.menuId)  
   const dispatch = useDispatch()
-
-
-
-  if (typeof window !== 'undefined') 
-    console.log('get token from localStorage:  ', localStorage.getItem('token'))
-
+ 
   const LogoutMenu = (props) => (
     <SubMenu title={props.user} key='4' style={{ float: 'right' }} {...props} >
         <Menu.Item key="setting:1"

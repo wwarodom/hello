@@ -23,14 +23,12 @@ export default () => {
         console.log('error occurred')
       })
   }
-  const state = useSelector( s => s)
+  // const state = useSelector( s => s)
   const user =  useSelector((state) => state.facebook.user)
-  const token =  useSelector((state) => state.facebook.token)
-  const error = useSelector((state) => state.facebook.error)
+  // const token =  useSelector((state) => state.facebook.token)
+  // const error = useSelector((state) => state.facebook.error)
   // console.log('state: ', state )
-  console.log('user: ', user )
-  console.log('token login : ', user )
-  // console.log('error: ', error)
+  // console.log('token: ', token ) 
 
 
   const NormalLoginForm = () => {
@@ -96,10 +94,6 @@ export default () => {
             Log in
           </Button>
           Or <a href=''>register now!</a>
-        </Form.Item>
-        <Form.Item>
-          <Button onClick={login}>FB Login </Button>
-          <Button onClick={logout}>FB Logout </Button>
         </Form.Item>
         <Form.Item>
           <a href='#' 
