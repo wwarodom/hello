@@ -12,10 +12,14 @@ const { SubMenu } = Menu;
 
 export default function Home (props) {
   const [menuId, setMenuId] = useState(props.menuId) 
+  
   // console.log('user props: ', props.user )
   // console.log('firebase in Layout: ', firebase)
 
   const dispatch = useDispatch()
+
+
+
   if (typeof window !== 'undefined') 
     console.log('get token from localStorage:  ', localStorage.getItem('token'))
 
