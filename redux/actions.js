@@ -1,18 +1,20 @@
 import * as types from './types'
 import firebase from '../config/firebase'
 
-export const loginFacebook = () => async (dispatch) => {
+export const loginFacebook = () => async dispatch => {
   let provider = new firebase.auth.FacebookAuthProvider()
-  firebase.auth().signInWithPopup(provider)
+  firebase
+    .auth()
+    .signInWithPopup(provider)
     .then(function (result) {
       let token = result.credential.accessToken
       var user = result.user
-      console.log('token:  ', token) 
+      console.log('token:  ', token)
       console.log('user displayName: ', user.displayName)
       dispatch({
         type: types.LOGIN_SUCCESS,
-        payload: { user: user.displayName , token },
-      }) 
+        payload: { user: user.displayName, token }
+      })
     })
     .catch(function (error) {
       var errorCode = error.code
@@ -21,27 +23,60 @@ export const loginFacebook = () => async (dispatch) => {
       var credential = error.credential
       dispatch({
         type: types.LOGIN_FAILED,
-        payload: { error: error.message },
-      }) 
-    })  
+        payload: { error: error.message }
+      })
+    })
 }
 
-export const logoutFacebook = () => (dispatch) => {
+export const logoutFacebook = () => dispatch => {
   firebase
     .auth()
     .signOut()
-    .then(function () { 
-      console.log('Signout already') 
+    .then(function () {
+      console.log('Signout already')
       dispatch({
         type: types.LOGOUT_SUCCESS,
-        payload: { user: null },
-      }) 
+        payload: { user: null }
+      })
     })
-    .catch(function (error) { 
+    .catch(function (error) {
       console.log('error occurred')
       dispatch({
         type: types.LOGOUT_FAILED,
-        payload: { error: error.message },
-      }) 
+        payload: { error: error.message }
+      })
+    })
+}
+
+export const createUserAndSignIn = (email, password) => {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code
+      var errorMessage = error.message
+      // ...
+      dispatch({
+        type: types.CREATE_USER_FAILED,
+        payload: { error: error.message }
+      })
+      return ;
+    })
+    dispatch({
+      type: types.CREATE_USER_SUCCESS,
+      payload: { user: email }
+    })
+}
+
+export const loginEmail = () => {
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code
+      var errorMessage = error.message
+      // ...
     })
 }

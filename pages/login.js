@@ -1,4 +1,5 @@
-import Layout from '../components/Layout' 
+import Layout from '../components/Layout'
+import Link from 'next/link' 
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import firebase from '../config/firebase'
@@ -8,28 +9,12 @@ import { loginFacebook } from '../redux/actions'
 export default () => {
   const dispatch = useDispatch()
 
-  const login = () => { 
-    dispatch(loginFacebook()) 
-  }
-
-  const logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () { 
-        console.log('Signout already')
-      })
-      .catch(function (error) { 
-        console.log('error occurred')
-      })
-  }
   // const state = useSelector( s => s)
-  const user =  useSelector((state) => state.facebook.user)
+  const user = useSelector(state => state.facebook.user)
   // const token =  useSelector((state) => state.facebook.token)
   // const error = useSelector((state) => state.facebook.error)
   // console.log('state: ', state )
-  // console.log('token: ', token ) 
-
+  // console.log('token: ', token )
 
   const NormalLoginForm = () => {
     const onFinish = values => {
@@ -93,12 +78,16 @@ export default () => {
           >
             Log in
           </Button>
-          Or <a href=''>register now!</a>
+          Or 
+          <Link href='/register'>
+            <a> register now!</a>
+          </Link>
         </Form.Item>
         <Form.Item>
-          <a href='#' 
+          <a
+            href='#'
             className='fb connect'
-            onClick={login}
+            onClick={() => dispatch(loginFacebook())}
           >
             Sign in with Facebook
           </a>
@@ -108,7 +97,7 @@ export default () => {
   }
 
   return (
-    <Layout menuId='4' user={user}> 
+    <Layout menuId='4' user={user}>
       <div className='topBox'>
         <div className='mediumBox'>
           <NormalLoginForm />
@@ -117,12 +106,3 @@ export default () => {
     </Layout>
   )
 }
-
-
-  // firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-  //   // Handle Errors here.
-  //   var errorCode = error.code;
-  //   var errorMessage = error.message;
-  //   console.log(errorCode)
-  //   console.log(errorMessage)
-  // });

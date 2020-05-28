@@ -6,10 +6,8 @@ export default () => {
 
   return (
     <Layout menuId='3' user={user} >
-      <div className='topBox'>
-        <div className='mediumBox'>
-          About  
-        </div>
+      <div className='topBox'> 
+          About   
       </div>
     </Layout>
   )

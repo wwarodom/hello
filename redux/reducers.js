@@ -16,45 +16,21 @@ const facebookReducer = (state = 0, {type, payload}) => {
   }
 }
 
-
-// COUNTER REDUCER
-const counterReducer = (state = 0, { type }) => {
+const userReducer = (state = 0, {type, payload}) => {
   switch (type) {
-    case types.INCREMENT:
-      return state + 1
-    case types.DECREMENT:
-      return state - 1
-    case types.RESET:
-      return 0
+    case types.CREATE_USER_SUCCESS:
+      return { user: payload.user }
+    case types.CREATE_USER_FAILED:
+      return { error: payload.error}  
     default:
-      return state
+        return state
   }
 }
-
-// INITIAL TIMER STATE
-const initialTimerState = {
-  lastUpdate: 0,
-  light: false,
-}
-
-// TIMER REDUCER
-const timerReducer = (state = initialTimerState, { type, payload }) => {
-  switch (type) {
-    case types.TICK:
-      return {
-        lastUpdate: payload.ts,
-        light: !!payload.light,
-      }
-    default:
-      return state
-  }
-}
-
+ 
 // COMBINED REDUCERS
-const reducers = {
-  counter: counterReducer,
-  timer: timerReducer,
+const reducers = { 
   facebook: facebookReducer,
+  user: userReducer,
 }
 
 export default combineReducers(reducers)
