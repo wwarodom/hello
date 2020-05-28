@@ -9,8 +9,6 @@ export const loginFacebook = () => async (dispatch) => {
       var user = result.user
       console.log('token:  ', token) 
       console.log('user displayName: ', user.displayName)
-      if (typeof window !== 'undefined') 
-        localStorage.setItem('token',token)
       dispatch({
         type: types.LOGIN_SUCCESS,
         payload: { user: user.displayName , token },
@@ -33,8 +31,7 @@ export const logoutFacebook = () => (dispatch) => {
     .auth()
     .signOut()
     .then(function () { 
-      console.log('Signout already')
-      removeCookie('token');
+      console.log('Signout already') 
       dispatch({
         type: types.LOGOUT_SUCCESS,
         payload: { user: null },
@@ -48,28 +45,3 @@ export const logoutFacebook = () => (dispatch) => {
       }) 
     })
 }
-
-
-
-
-// INITIALIZES CLOCK ON SERVER
-export const serverRenderClock = (isServer) => (dispatch) =>
-  dispatch({
-    type: types.TICK,
-    payload: { light: !isServer, ts: Date.now() },
-  })
-
-// INITIALIZES CLOCK ON CLIENT
-export const startClock = () => (dispatch) =>
-  setInterval(() => {
-    dispatch({ type: types.TICK, payload: { light: true, ts: Date.now() } })
-  }, 1000)
-
-// INCREMENT COUNTER BY 1
-export const incrementCount = () => ({ type: types.INCREMENT })
-
-// DECREMENT COUNTER BY 1
-export const decrementCount = () => ({ type: types.DECREMENT })
-
-// RESET COUNTER
-export const resetCount = () => ({ type: types.RESET })
