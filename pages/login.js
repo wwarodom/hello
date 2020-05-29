@@ -2,23 +2,23 @@ import Layout from '../components/Layout'
 import Link from 'next/link' 
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import firebase from '../config/firebase'
 import { useSelector, useDispatch } from 'react-redux'
-import { loginFacebook } from '../redux/actions'
+import { loginFacebook, loginEmail } from '../redux/actions'
 
 export default () => {
   const dispatch = useDispatch()
 
   // const state = useSelector( s => s)
-  const user = useSelector(state => state.facebook.user)
-  // const token =  useSelector((state) => state.facebook.token)
-  // const error = useSelector((state) => state.facebook.error)
-  // console.log('state: ', state )
-  // console.log('token: ', token )
+  const user = useSelector(state => state.user.user)
+  // const token =  useSelector((state) => state.userReducer.token)
+  // const error = useSelector((state) => state.userReducer.error)
+  // console.log('state: ', state )  // console.log('token: ', token )
 
   const NormalLoginForm = () => {
+
     const onFinish = values => {
       console.log('Received values of form: ', values)
+      dispatch(loginEmail(values.username, values.password))
     }
 
     return (

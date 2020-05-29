@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 
 export default () => {
 
-  const user = useSelector(state => state.facebook.user) 
+  const user = useSelector(state => state.user.user) 
 
   return (
     <Layout menuId='2' user={user}>
       <div className='topBox'>
-        <div className='mediumBox'>Contact</div>
+         Contact 
       </div>
     </Layout>
   )

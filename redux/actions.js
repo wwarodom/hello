@@ -1,5 +1,6 @@
 import * as types from './types'
-import firebase from '../config/firebase'
+import firebase from '../config/firebase' 
+import Router from 'next/router'
 
 export const loginFacebook = () => async dispatch => {
   let provider = new firebase.auth.FacebookAuthProvider()
@@ -15,6 +16,7 @@ export const loginFacebook = () => async dispatch => {
         type: types.LOGIN_SUCCESS,
         payload: { user: user.displayName, token }
       })
+      Router.push('/')
     })
     .catch(function (error) {
       var errorCode = error.code
@@ -25,10 +27,11 @@ export const loginFacebook = () => async dispatch => {
         type: types.LOGIN_FAILED,
         payload: { error: error.message }
       })
+      Router.push('/login')
     })
 }
 
-export const logoutFacebook = () => dispatch => {
+export const logoutFacebook = () => async dispatch => {
   firebase
     .auth()
     .signOut()
@@ -38,6 +41,7 @@ export const logoutFacebook = () => dispatch => {
         type: types.LOGOUT_SUCCESS,
         payload: { user: null }
       })
+      Router.push('/login')
     })
     .catch(function (error) {
       console.log('error occurred')
@@ -48,7 +52,9 @@ export const logoutFacebook = () => dispatch => {
     })
 }
 
-export const createUserAndSignIn = (email, password) => {
+export const createUserAndSignIn = (email, password) => async dispatch => {
+  console.log('email', email)
+  console.log('password', password)
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -56,27 +62,39 @@ export const createUserAndSignIn = (email, password) => {
       // Handle Errors here.
       var errorCode = error.code
       var errorMessage = error.message
-      // ...
+      console.log('error: ', error.message)
       dispatch({
         type: types.CREATE_USER_FAILED,
         payload: { error: error.message }
       })
+      Router.push('/login')
       return ;
     })
     dispatch({
       type: types.CREATE_USER_SUCCESS,
       payload: { user: email }
     })
+    console.log('register success ', email)
+    Router.push('/')
 }
 
-export const loginEmail = () => {
+export const loginEmail = (email, password) => async dispatch => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .catch(function (error) {
-      // Handle Errors here.
+    .catch(function (error) { 
       var errorCode = error.code
       var errorMessage = error.message
-      // ...
+      dispatch({
+        type: types.LOGIN_FAILED,
+        payload: { error: error.message }
+      })
+      Router.push('/login')
+      return ;
     })
+    dispatch({
+      type: types.LOGIN_SUCCESS,
+      payload: { user: email, token: 'emailtoken'+email }
+    })
+    Router.push('/')
 }

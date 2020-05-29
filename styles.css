@@ -10,17 +10,6 @@ body {
   box-sizing: border-box;
 }
 
-.mediumBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 500px;
-  min-height: 400px;
-  border-style: dashed;
-  border-width: 2px;
-  padding: 0px;
-}
-
 .topBox {
   display: flex;
   /* border-style: dashed;
@@ -32,15 +21,18 @@ body {
   min-height: 400px;
 }
 
-.test {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  background: #fff;
-  padding: 24px;
+.mediumBox {
   min-height: 400px;
+  /* border-style: dashed;
+  border-width: 2px; */
+  padding: 0px;
 }
 
+.w450{
+  width: 450px;
+}
+ 
+ 
 a.fb {
   font-family: Lucida Grande, Helvetica Neue, Helvetica, Arial, sans-serif;
   display: inline-block;

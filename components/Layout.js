@@ -1,9 +1,8 @@
  
 import Link from 'next/link' 
 import { useState } from 'react'
-import { Layout, Menu } from 'antd' 
-import firebase from '../config/firebase'
-import { useSelector, useDispatch } from 'react-redux'
+import { Layout, Menu } from 'antd'  
+import { useDispatch } from 'react-redux'
 import { logoutFacebook } from '../redux/actions'
 
 const { Header, Content, Footer } = Layout
@@ -37,8 +36,7 @@ export default function Home (props) {
         <div className='logo' />
         <Menu
           theme='dark'
-          mode='horizontal'
-          //   defaultSelectedKeys={menuId}
+          mode='horizontal' 
           selectedKeys={[menuId]} 
         >
           <Menu.Item key='1'>

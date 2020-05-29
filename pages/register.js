@@ -1,25 +1,17 @@
 import Layout from '../components/Layout'
-
 import React, { useState } from 'react'
-import { Form, Input,
-  Tooltip, 
-  Select, 
-  Checkbox,
-  Button,
-  AutoComplete
-} from 'antd'
+import { Form, Input, Tooltip, Checkbox, Button } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { createUserAndSignIn } from '../redux/actions'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default () => {
-  const { Option } = Select
-  const AutoCompleteOption = AutoComplete.Option
-  
   const formItemLayout = {
     labelCol: {
       xs: {
         span: 24
       },
-      sm: { 
+      sm: {
         span: 8
       }
     },
@@ -48,12 +40,15 @@ export default () => {
 
   const RegistrationForm = () => {
     const [form] = Form.useForm()
+    const dispatch = useDispatch()
 
     const onFinish = values => {
+      
       console.log('Received values of form: ', values)
+      dispatch(createUserAndSignIn(values.email, values.password))
     }
 
-   return (
+    return (
       <Form
         {...formItemLayout}
         form={form}
@@ -181,7 +176,7 @@ export default () => {
   return (
     <Layout menuId='4'>
       <div className='topBox'>
-        <div className='mediumBox'>
+        <div className='mediumBox w450'>
           <RegistrationForm />
         </div>
       </div>
