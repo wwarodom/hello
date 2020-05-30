@@ -1,21 +1,19 @@
 import Layout from '../components/Layout'
-import Link from 'next/link' 
-import { Form, Input, Button, Checkbox } from 'antd'
+import Link from 'next/link'
+import { Form, Input, Button, Checkbox, Alert } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFacebook, loginEmail } from '../redux/actions'
 
 export default () => {
   const dispatch = useDispatch()
-
-  // const state = useSelector( s => s)
   const user = useSelector(state => state.user.user)
+  const error = useSelector(state => state.user.error)
   // const token =  useSelector((state) => state.userReducer.token)
   // const error = useSelector((state) => state.userReducer.error)
   // console.log('state: ', state )  // console.log('token: ', token )
 
   const NormalLoginForm = () => {
-
     const onFinish = values => {
       console.log('Received values of form: ', values)
       dispatch(loginEmail(values.username, values.password))
@@ -25,11 +23,13 @@ export default () => {
       <Form
         name='normal_login'
         className='login-form'
-        initialValues={{
-          remember: true
-        }}
+        initialValues={{ remember: true }}
         onFinish={onFinish}
       >
+        <Form.Item>
+          {error ? <Alert message={error} type='error' /> : ''}
+        </Form.Item>
+
         <Form.Item
           name='username'
           rules={[
@@ -78,7 +78,7 @@ export default () => {
           >
             Log in
           </Button>
-          Or 
+          Or
           <Link href='/register'>
             <a> register now!</a>
           </Link>
@@ -99,7 +99,7 @@ export default () => {
   return (
     <Layout menuId='4' user={user}>
       <div className='topBox'>
-        <div className='mediumBox'>
+        <div className='mediumBox w300'>
           <NormalLoginForm />
         </div>
       </div>

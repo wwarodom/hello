@@ -9,7 +9,7 @@ const { Header, Content, Footer } = Layout
 const { SubMenu } = Menu;
 
 
-export default function Home (props) {
+function PageLayout (props) {
   const [menuId, setMenuId] = useState(props.menuId)  
   const dispatch = useDispatch()
  
@@ -66,3 +66,5 @@ export default function Home (props) {
     </Layout>
   )
 }
+
+export default PageLayout

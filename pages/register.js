@@ -1,11 +1,13 @@
 import Layout from '../components/Layout'
-import React, { useState } from 'react'
-import { Form, Input, Tooltip, Checkbox, Button } from 'antd'
+import { Form, Input, Button, Checkbox, Alert, Tooltip } from 'antd' 
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { createUserAndSignIn } from '../redux/actions'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default () => {
+
+  const error = useSelector(state => state.user.error)
+
   const formItemLayout = {
     labelCol: {
       xs: {
@@ -43,7 +45,6 @@ export default () => {
     const dispatch = useDispatch()
 
     const onFinish = values => {
-      
       console.log('Received values of form: ', values)
       dispatch(createUserAndSignIn(values.email, values.password))
     }
@@ -56,6 +57,10 @@ export default () => {
         onFinish={onFinish}
         scrollToFirstError
       >
+        <Form.Item {...tailFormItemLayout}>
+          {error ? <Alert message={error} type='error' /> : ''}
+        </Form.Item>
+
         <Form.Item
           name='email'
           label='E-mail'

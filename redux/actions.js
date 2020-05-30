@@ -1,5 +1,5 @@
 import * as types from './types'
-import firebase from '../config/firebase' 
+import firebase from '../config/firebase'
 import Router from 'next/router'
 
 export const loginFacebook = () => async dispatch => {
@@ -19,10 +19,10 @@ export const loginFacebook = () => async dispatch => {
       Router.push('/')
     })
     .catch(function (error) {
-      var errorCode = error.code
-      var errorMessage = error.message
-      var email = error.email
-      var credential = error.credential
+      // var errorCode = error.code
+      // var email = error.email
+      // var credential = error.credential
+      let errorMessage = error.message
       dispatch({
         type: types.LOGIN_FAILED,
         payload: { error: error.message }
@@ -35,7 +35,7 @@ export const logoutFacebook = () => async dispatch => {
   firebase
     .auth()
     .signOut()
-    .then(function () {
+    .then(() => {
       console.log('Signout already')
       dispatch({
         type: types.LOGOUT_SUCCESS,
@@ -58,43 +58,48 @@ export const createUserAndSignIn = (email, password) => async dispatch => {
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      dispatch({
+        type: types.CREATE_USER_SUCCESS,
+        payload: { user: email }
+      })
+      console.log('register success ', email)
+      Router.push('/')
+    })
     .catch(function (error) {
       // Handle Errors here.
-      var errorCode = error.code
-      var errorMessage = error.message
+      // var errorCode = error.code
+      // let errorMessage = error.message
       console.log('error: ', error.message)
       dispatch({
         type: types.CREATE_USER_FAILED,
         payload: { error: error.message }
       })
-      Router.push('/login')
-      return ;
+      Router.push('/register')
+      return
     })
-    dispatch({
-      type: types.CREATE_USER_SUCCESS,
-      payload: { user: email }
-    })
-    console.log('register success ', email)
-    Router.push('/')
 }
 
 export const loginEmail = (email, password) => async dispatch => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .catch(function (error) { 
-      var errorCode = error.code
-      var errorMessage = error.message
+    .then(() => {
+      dispatch({
+        type: types.LOGIN_SUCCESS,
+        payload: { user: email, token: 'emailtoken' + email }
+      })
+      Router.push('/')
+    })
+    .catch(function (error) {
+      // var errorCode = error.code
+      // var errorMessage = error.message
       dispatch({
         type: types.LOGIN_FAILED,
         payload: { error: error.message }
       })
       Router.push('/login')
-      return ;
+      return
     })
-    dispatch({
-      type: types.LOGIN_SUCCESS,
-      payload: { user: email, token: 'emailtoken'+email }
-    })
-    Router.push('/')
 }
+ 

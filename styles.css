@@ -26,10 +26,15 @@ body {
   /* border-style: dashed;
   border-width: 2px; */
   padding: 0px;
+  text-align: center;
 }
 
 .w450{
   width: 450px;
+}
+
+.w300 {
+  width: 300px;
 }
  
  
