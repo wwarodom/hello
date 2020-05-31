@@ -1,6 +1,7 @@
 import * as types from './types'
 import firebase from '../config/firebase'
 import Router from 'next/router'
+import { setCookie, removeCookie } from '../utils/cookie'
 
 export const loginFacebook = () => async dispatch => {
   let provider = new firebase.auth.FacebookAuthProvider()
@@ -9,7 +10,7 @@ export const loginFacebook = () => async dispatch => {
     .signInWithPopup(provider)
     .then(function (result) {
       let token = result.credential.accessToken
-      var user = result.user
+      let user = result.user
       console.log('token:  ', token)
       console.log('user displayName: ', user.displayName)
       dispatch({
@@ -31,7 +32,7 @@ export const loginFacebook = () => async dispatch => {
     })
 }
 
-export const logoutFacebook = () => async dispatch => {
+export const logout = () => async dispatch => {
   firebase
     .auth()
     .signOut()
@@ -41,6 +42,7 @@ export const logoutFacebook = () => async dispatch => {
         type: types.LOGOUT_SUCCESS,
         payload: { user: null }
       })
+      removeCookie('user')
       Router.push('/login')
     })
     .catch(function (error) {
@@ -55,6 +57,7 @@ export const logoutFacebook = () => async dispatch => {
 export const createUserAndSignIn = (email, password) => async dispatch => {
   console.log('email', email)
   console.log('password', password)
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -80,15 +83,14 @@ export const createUserAndSignIn = (email, password) => async dispatch => {
     })
 }
 
-export const loginEmail = (email, password) => async dispatch => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(() => {
+export const loginEmail = (email, password) => async dispatch => {   
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( () => {
       dispatch({
         type: types.LOGIN_SUCCESS,
         payload: { user: email, token: 'emailtoken' + email }
       })
+      setCookie('user',email)
       Router.push('/')
     })
     .catch(function (error) {
@@ -102,4 +104,3 @@ export const loginEmail = (email, password) => async dispatch => {
       return
     })
 }
- 

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Layout, Menu } from 'antd'  
 import { useDispatch } from 'react-redux'
-import { logoutFacebook } from '../redux/actions'
+import { logout } from '../redux/actions'
 
 const { Header, Content, Footer } = Layout
 const { SubMenu } = Menu;
@@ -16,7 +16,7 @@ function PageLayout (props) {
   const LogoutMenu = (props) => (
     <SubMenu title={props.user} key='4' style={{ float: 'right' }} {...props} >
         <Menu.Item key="setting:1"
-          onClick={ ()=> dispatch(logoutFacebook())}
+          onClick={ ()=> dispatch(logout())}
           // onClick={()=> console.log('click logout')}
         >Logout</Menu.Item> 
     </SubMenu>
