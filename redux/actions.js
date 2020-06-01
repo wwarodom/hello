@@ -17,6 +17,7 @@ export const loginFacebook = () => async dispatch => {
         type: types.LOGIN_SUCCESS,
         payload: { user: user.displayName, token }
       })
+      setCookie('user',user.displayName)
       Router.push('/')
     })
     .catch(function (error) {
@@ -62,10 +63,14 @@ export const createUserAndSignIn = (email, password) => async dispatch => {
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      dispatch({
+      // result.user.updateProfile({
+      //   displayName: nickname
+      // })
+       dispatch({
         type: types.CREATE_USER_SUCCESS,
         payload: { user: email }
       })
+      setCookie('user',email) 
       console.log('register success ', email)
       Router.push('/')
     })

@@ -1,15 +1,14 @@
-import Layout from '../components/Layout' 
-import firebase from '../config/firebase'
-import {getCookie} from  '../utils/cookie'
+import Layout from '../components/Layout'
+// import firebase from '../config/firebase'
+// import { getCookie } from '../utils/cookie'
 import { useSelector, useDispatch } from 'react-redux'
+import withAuth from '../hoc/auth'
 
-function Home() {
-  
+function Home (props) {
   let user = useSelector(state => state.user.user)
-  console.log('current user: ', firebase.auth().currentUser)
-
-  // user =  user?getCookieFromBrowser('user'):user
-
+  // console.log('user: ', user)
+  // console.log('props.user: ', props.user)
+  user = user || props.user
   return (
     <Layout menuId='1' user={user}>
       <div className='topBox'> Home</div>
@@ -17,10 +16,11 @@ function Home() {
   )
 }
 
-export  async function getServerSideProps (ctx) { 
-  const user = getCookie('user',ctx.req)
-  console.log('user from cookie: ', user)
-  return { props: { 'user':'wwarodom@xxx.com' } }
-}
+// export async function getServerSideProps (ctx) {
+//   let user = getCookie('user', ctx.req)
+//   console.log('user from cookie: ', user)
+//   user = user || ''
+//   return { props: { user } }
+// }
 
-export default Home
+export default withAuth(Home)

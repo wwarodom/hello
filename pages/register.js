@@ -46,7 +46,7 @@ export default () => {
 
     const onFinish = values => {
       console.log('Received values of form: ', values)
-      dispatch(createUserAndSignIn(values.email, values.password))
+      dispatch(createUserAndSignIn(values.email, values.nickname, values.password))
     }
 
     return (
