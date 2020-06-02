@@ -1,9 +1,10 @@
 import Layout from '../components/Layout' 
 import { useSelector } from 'react-redux'
+import withAuth from '../hoc/auth' 
 
-export default () => {
-
-  const user = useSelector(state => state.user.user) 
+const Contact = (props) => {
+  let user = useSelector(state => state.user.user) 
+  user = user || props.user
 
   return (
     <Layout menuId='2' user={user}>
@@ -13,3 +14,5 @@ export default () => {
     </Layout>
   )
 }
+
+export default withAuth(Contact)

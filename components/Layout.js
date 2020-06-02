@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Layout, Menu } from 'antd'
 import { useDispatch } from 'react-redux'
 import { logout } from '../redux/actions'
@@ -9,7 +9,10 @@ const { SubMenu } = Menu
 
 function PageLayout (props) {
   const [menuId, setMenuId] = useState(props.menuId)
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
+ 
+  useEffect( () => {setLoading(true),[]})
 
   const LogoutMenu = props => (
     <SubMenu title={props.user} key='4' style={{ float: 'right' }} {...props}>
@@ -20,15 +23,15 @@ function PageLayout (props) {
       >
        Logout 
       </Menu.Item>
-    </SubMenu>  
+    </SubMenu>    
   )
-
+  
   const LoginMenu = props => (
     <Menu.Item key='4' style={{ float: 'right' }} {...props}>
       <Link href='/login'>
         <a>Login </a>
       </Link>
-    </Menu.Item> 
+    </Menu.Item>  
   )
 
   return (
@@ -50,9 +53,8 @@ function PageLayout (props) {
             <Link href='/about'>
               <a>About </a>
             </Link>
-          </Menu.Item>
-
-          {props.user ? <LogoutMenu user={props.user} /> : <LoginMenu />}
+          </Menu.Item>  
+          { (props.user && loading ) ? <LogoutMenu user={props.user} /> : <LoginMenu />}
         </Menu>
       </Header>
       <Content style={{ marginTop: '50px', padding: '0 50px' }}>
