@@ -9,21 +9,17 @@ export const loginFacebook = () => async dispatch => {
     .auth()
     .signInWithPopup(provider)
     .then(function (result) {
-      let token = result.credential.accessToken
-      let user = result.user
-      console.log('token:  ', token)
-      console.log('user displayName: ', user.displayName)
+      // let token = result.credential.accessToken
+      // console.log('token:  ', token)
+      let user = result.user.displayName
       dispatch({
         type: types.LOGIN_SUCCESS,
-        payload: { user: user.displayName, token }
+        payload: { user }
       })
-      setCookie('user',user.displayName)
+      setCookie('user', user)
       Router.push('/')
     })
-    .catch(function (error) {
-      // var errorCode = error.code
-      // var email = error.email
-      // var credential = error.credential
+    .catch(function (error) { 
       let errorMessage = error.message
       dispatch({
         type: types.LOGIN_FAILED,
@@ -55,30 +51,40 @@ export const logout = () => async dispatch => {
     })
 }
 
-export const createUserAndSignIn = (email, password) => async dispatch => {
-  console.log('email', email)
-  console.log('password', password)
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+export const createUserAndSignIn = (email,password, nickname) => async dispatch => {
+  
+  // ====  update phone in firebase account =====
+  // firebase.auth().settings.appVerificationDisabledForTesting = true;
+  // let appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+  // firebase.auth().signInWithPhoneNumber(phone, appVerifier)
+  //   .then(function (confirmationResult) {
+  //     return confirmationResult.confirm("123456")
+  //   }).catch(function (error) {
+  //       console.log('error sms')
+  //   });
+
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      // result.user.updateProfile({
-      //   displayName: nickname
+    .then(result => {
+      // console.log('profile: ', nickname, phone)
+      // result.user.updatePhoneNumber({
+      //   phoneNumber: phone
       // })
-       dispatch({
-        type: types.CREATE_USER_SUCCESS,
-        payload: { user: email }
+      result.user.updateProfile({
+        displayName: nickname, 
       })
-      setCookie('user',email) 
-      console.log('register success ', email)
+
+      dispatch({
+        type: types.CREATE_USER_SUCCESS,
+        payload: { user: nickname }
+      })
+      setCookie('user', nickname)
+      // console.log('register success ', email)
       Router.push('/')
     })
     .catch(function (error) {
-      // Handle Errors here.
-      // var errorCode = error.code
-      // let errorMessage = error.message
-      console.log('error: ', error.message)
       dispatch({
         type: types.CREATE_USER_FAILED,
         payload: { error: error.message }
@@ -88,19 +94,22 @@ export const createUserAndSignIn = (email, password) => async dispatch => {
     })
 }
 
-export const loginEmail = (email, password) => async dispatch => {   
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then( () => {
+export const loginEmail = (email, password) => async dispatch => {
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(result => {
+      const nickname = result.user.displayName
+      // token: result.user.refreshToken
+      console.log('result login: ', result)
       dispatch({
         type: types.LOGIN_SUCCESS,
-        payload: { user: email, token: 'emailtoken' + email }
+        payload: { user: nickname }
       })
-      setCookie('user',email)
+      setCookie('user', nickname)
       Router.push('/')
     })
     .catch(function (error) {
-      // var errorCode = error.code
-      // var errorMessage = error.message
       dispatch({
         type: types.LOGIN_FAILED,
         payload: { error: error.message }

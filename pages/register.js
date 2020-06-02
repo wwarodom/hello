@@ -1,11 +1,10 @@
 import Layout from '../components/Layout'
-import { Form, Input, Button, Checkbox, Alert, Tooltip } from 'antd' 
+import { Form, Input, Button, Checkbox, Alert, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { createUserAndSignIn } from '../redux/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default () => {
-
   const error = useSelector(state => state.user.error)
 
   const formItemLayout = {
@@ -44,9 +43,8 @@ export default () => {
     const [form] = Form.useForm()
     const dispatch = useDispatch()
 
-    const onFinish = values => {
-      console.log('Received values of form: ', values)
-      dispatch(createUserAndSignIn(values.email, values.nickname, values.password))
+    const onFinish = ({email, password, nickname}) => { 
+      dispatch(createUserAndSignIn(email,password,nickname))
     }
 
     return (

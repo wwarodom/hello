@@ -1,22 +1,10 @@
-import { getCookie } from '../utils/cookie'
-import {useEffect} from 'react'
+import {getCookie} from '../utils/cookie'
 
 export default (Component) => {
 
-  const withAuth = props => {
-    console.log('inside withAuth')
-    return <Component {...props} />
-  }
-
-  // withThing.getInitialProps = async ctx => {
-  //     return { thing: true };
-  // };
-
-   async function getServerSideProps (ctx) {
-    let user = getCookie('user', ctx.req)
-    console.log('user from cookie: ', user)
-    user = user || ''
-    return { props: { user } }
+  const withAuth = props => { 
+    const user = getCookie('user', null) 
+    return <Component {...props} user={user} />
   }
 
   return withAuth

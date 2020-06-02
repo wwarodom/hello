@@ -18,9 +18,9 @@ function PageLayout (props) {
         onClick={() => dispatch(logout())}
         // onClick={()=> console.log('click logout')}
       >
-        Logout
+       Logout 
       </Menu.Item>
-    </SubMenu>
+    </SubMenu>  
   )
 
   const LoginMenu = props => (
@@ -28,7 +28,7 @@ function PageLayout (props) {
       <Link href='/login'>
         <a>Login </a>
       </Link>
-    </Menu.Item>
+    </Menu.Item> 
   )
 
   return (
