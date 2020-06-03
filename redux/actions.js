@@ -94,7 +94,7 @@ export const createUserAndSignIn = (email,password, nickname) => async dispatch 
     })
 }
 
-export const loginEmail = (email, password) => async dispatch => {
+export const loginEmail = (email, password, remember) => async dispatch => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)

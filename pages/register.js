@@ -138,19 +138,6 @@ export default () => {
         </Form.Item>
 
         <Form.Item
-          name='phone'
-          label='Phone Number'
-          rules={[
-            {
-              required: true,
-              message: 'Please input your phone number!'
-            }
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
           name='agreement'
           valuePropName='checked'
           rules={[

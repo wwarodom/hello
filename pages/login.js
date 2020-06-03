@@ -14,9 +14,9 @@ export default () => {
   // console.log('state: ', state )  // console.log('token: ', token )
 
   const NormalLoginForm = () => {
-    const onFinish = values => {
-      console.log('Received values of form: ', values)
-      dispatch(loginEmail(values.username, values.password))
+    const onFinish = ({username, password, remember}) => {
+      // console.log('Received values of form: ', values)
+      dispatch(loginEmail(username, password, remember))
     }
 
     return (
