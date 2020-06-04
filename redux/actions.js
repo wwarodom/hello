@@ -16,10 +16,10 @@ export const loginFacebook = () => async dispatch => {
         type: types.LOGIN_SUCCESS,
         payload: { user }
       })
-      setCookie('user', user)
+      // setCookie('user', user)
       Router.push('/')
     })
-    .catch(function (error) { 
+    .catch(function (error) {
       let errorMessage = error.message
       dispatch({
         type: types.LOGIN_FAILED,
@@ -39,7 +39,7 @@ export const logout = () => async dispatch => {
         type: types.LOGOUT_SUCCESS,
         payload: { user: null }
       })
-      removeCookie('user')
+      // removeCookie('user')
       Router.push('/login')
     })
     .catch(function (error) {
@@ -51,8 +51,11 @@ export const logout = () => async dispatch => {
     })
 }
 
-export const createUserAndSignIn = (email,password, nickname) => async dispatch => {
-  
+export const createUserAndSignIn = (
+  email,
+  password,
+  nickname
+) => async dispatch => {
   // ====  update phone in firebase account =====
   // firebase.auth().settings.appVerificationDisabledForTesting = true;
   // let appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
@@ -73,14 +76,14 @@ export const createUserAndSignIn = (email,password, nickname) => async dispatch 
       //   phoneNumber: phone
       // })
       result.user.updateProfile({
-        displayName: nickname, 
+        displayName: nickname
       })
 
       dispatch({
         type: types.CREATE_USER_SUCCESS,
         payload: { user: nickname }
       })
-      setCookie('user', nickname)
+      // setCookie('user', nickname)
       // console.log('register success ', email)
       Router.push('/')
     })
@@ -95,26 +98,41 @@ export const createUserAndSignIn = (email,password, nickname) => async dispatch 
 }
 
 export const loginEmail = (email, password, remember) => async dispatch => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(result => {
-      const nickname = result.user.displayName
-      // token: result.user.refreshToken
-      console.log('result login: ', result)
-      dispatch({
-        type: types.LOGIN_SUCCESS,
-        payload: { user: nickname }
-      })
-      setCookie('user', nickname)
-      Router.push('/')
-    })
-    .catch(function (error) {
-      dispatch({
-        type: types.LOGIN_FAILED,
-        payload: { error: error.message }
-      })
-      Router.push('/login')
-      return
+  let myAuth
+
+  myAuth = remember
+    ? firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    : firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+
+  console.log('firebase auth() ', firebase.auth() )
+  console.log('firebase persistence ', firebase.auth.Auth.Persistence )
+
+  myAuth
+    .then(
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(result => {
+          const nickname = result.user.displayName
+          // token: result.user.refreshToken
+          console.log('result login: ', result)
+          dispatch({
+            type: types.LOGIN_SUCCESS,
+            payload: { user: nickname }
+          })
+          // setCookie('user', nickname)
+          Router.push('/')
+        })
+        .catch(function (error) {
+          dispatch({
+            type: types.LOGIN_FAILED,
+            payload: { error: error.message }
+          })
+          Router.push('/login')
+          return
+        })
+    )
+    .catch(error => {
+      console.log('error: ', error)
     })
 }

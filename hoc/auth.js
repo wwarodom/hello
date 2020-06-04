@@ -1,12 +1,14 @@
-import { getCookie } from '../utils/cookie'
 import firebase from '../config/firebase'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default Component => {
-  const withAuth = props => {
-    // let user = getCookie('user', null)
+  const withAuth = props => { 
     const [user, setUser] = useState('')
-    firebase.auth().onAuthStateChanged(u => setUser(u && u.displayName))
+
+    useEffect( () => {
+        firebase.auth().onAuthStateChanged(u => setUser(u && u.displayName))
+    }, [user])
+
     return <Component {...props} user={user} />
   }
 
