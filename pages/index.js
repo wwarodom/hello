@@ -2,7 +2,8 @@ import Layout from '../components/Layout'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import withAuth from '../hoc/auth'
-import { Card } from 'antd'
+import { Card, Input, Button } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
 import { firestore } from '../config/firebase'
 
 function Home (props) {
@@ -31,11 +32,48 @@ function Home (props) {
     return tasks.map((task, index) => {
       return (
         <Card className='card' key={index}>
-          <div className="number">id: {task.id} </div>
-          <p> {index} : {task.name} </p>
+          <div className='number-top'>id: {task.id} </div>
+          <p>{task.name}</p>
+          <p className='number-bottom'>
+            <DeleteOutlined onClick={() => removeTask(task.id)} />
+          </p>
         </Card>
       )
     })
+  }
+
+  const addNewTask = async value => {
+    let id = tasks.length === 0 ? 1 : tasks[tasks.length - 1].id + 1
+    firestore
+      .collection('tasks')
+      .doc(id + '')
+      .set({ id, name })
+  }
+
+  const addNewForm = () => {
+    return (
+      <div>
+        <div
+          style={{ display: 'flex', marginBottom: '16px', maxWidth: '300px' }}
+        >
+          <Input
+            placeholder='task'
+            width='10'
+            onChange={e => setName(e.target.value)}
+          />
+          <Button type='primary' onClick={addNewTask}>
+            Add
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  const removeTask = id => {
+    firestore
+      .collection('tasks')
+      .doc(id + '')
+      .delete()
   }
 
   useEffect(() => {
@@ -48,6 +86,7 @@ function Home (props) {
         <div>
           <h1>Todo</h1>
         </div>
+        <div>{addNewForm()}</div>
         <div className='todo'>{renderCard()}</div>
       </div>
     </Layout>

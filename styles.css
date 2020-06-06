@@ -21,10 +21,16 @@ body {
   min-height: 150px;
 }
 
-.number { 
+.number-top { 
   position: absolute !important;
   right: 4px;
   top: 0px; 
+}
+
+.number-bottom { 
+  position: absolute !important;
+  right: 4px;
+  bottom: -12px; 
 }
 
 .topBox {
