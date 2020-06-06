@@ -10,6 +10,17 @@ body {
   box-sizing: border-box;
 }
 
+.todo {
+  display: flex; 
+  flex-wrap: wrap; 
+}
+
+.card { 
+  margin-right: 20px !important;
+  width: 150px;
+  min-height: 150px; 
+}
+
 .topBox {
   display: flex;
   /* border-style: dashed;
