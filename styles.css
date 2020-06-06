@@ -11,14 +11,20 @@ body {
 }
 
 .todo {
-  display: flex; 
-  flex-wrap: wrap; 
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.card { 
+.card {
   margin-right: 20px !important;
   width: 150px;
-  min-height: 150px; 
+  min-height: 150px;
+}
+
+.number { 
+  position: absolute !important;
+  right: 4px;
+  top: 0px; 
 }
 
 .topBox {
@@ -40,15 +46,14 @@ body {
   text-align: center;
 }
 
-.w450{
+.w450 {
   width: 450px;
 }
 
 .w300 {
   width: 300px;
 }
- 
- 
+
 a.fb {
   font-family: Lucida Grande, Helvetica Neue, Helvetica, Arial, sans-serif;
   display: inline-block;

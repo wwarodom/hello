@@ -27,12 +27,12 @@ function Home (props) {
   }
 
   const renderCard = () => {
-    if (tasks.length === 0 )
-       return <div>Hey</div>
+    if (tasks.length === 0) return <div>loading....</div>
     return tasks.map((task, index) => {
       return (
         <Card className='card' key={index}>
-          <p> {task.name} </p>
+          <div className="number">id: {task.id} </div>
+          <p> {index} : {task.name} </p>
         </Card>
       )
     })
